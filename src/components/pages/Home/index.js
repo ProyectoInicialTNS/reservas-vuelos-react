@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 //css
 import './Home.css'
 import {getAllFlights} from '../../../services/FlightService'
+import FormReservateDialog from '../../global/FormReservateDialog'
 
 const styles = theme => ({
     root: {
@@ -25,13 +26,29 @@ const styles = theme => ({
 
 class Home extends Component {
 
+    selectedFlight = {};
+
     constructor(props){
         super(props)
         this.state = {
             spacing: '16',
-            currentFlights : []
+            currentFlights : [],
+            openDialog:false
         };
+        this.openDialog = this.openDialog.bind(this);
+        this.closeDialog = this.closeDialog.bind(this);
     }
+
+    openDialog(flight){
+        this.selectedFlight = flight;
+        this.setState({openDialog:true})
+        //this.FormReservateDialog.openFormReservateDialog();
+    }
+
+    closeDialog(){
+        this.setState({openDialog:false})
+    }
+
 
     componentWillMount() {
         getAllFlights().then(
@@ -54,13 +71,13 @@ class Home extends Component {
                                 <Grid key={key} item className='GridHomeFlight'>
                                     <FlightCard key={key} flightImageUrl={item.flightImageUrl}
                                     airline={item.airline} flightDay={item.flightDay} finalCost={item.finalCost} origin={item.origin} destiny={item.destiny}
-                                    baseCost={item} idFlight={item} />
+                                    baseCost={item.baseCost} idFlight={item.id} openDialog={this.openDialog} />
                                 </Grid>
                             ))}
                     </Grid>
                 </Grid>
-                    
                 </Grid>
+                <FormReservateDialog open={this.state.openDialog} closeDialog={this.closeDialog} selectedFlight={this.selectedFlight} />
             </div>
         );
     }

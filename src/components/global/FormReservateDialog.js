@@ -1,57 +1,77 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import CedulaForm from './CedulaForm';
+import {reservateFlight} from '../../services/UserService'
 
 export default class FormReservateDialog extends React.Component {
-  state = {
-    open: false,
+
+  constructor(props){
+    super(props)
+    this.state = {
+      esMayorEdad : false,
+      cedula: 0
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleChangeCedula = this.handleChangeCedula.bind(this)
+    this.handleReservateButton = this.handleReservateButton.bind(this);
+  }
+
+  static propTypes={
+    open: PropTypes.bool.isRequired,
+    closeDialog: PropTypes.func.isRequired,
+    selectedFlight : PropTypes.object.isRequired
   };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
+  handleChange(event){
+    this.setState({esMayorEdad:event.target.checked})
+  }
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  handleReservateButton(){
+    this.props.closeDialog();
+    reservateFlight(this.state.cedula,this.props.selectedFlight).then(
+      response => {
+        response.data ? alert("Reservacion realizada con exito") : alert("No se puede realizar reservacion");
+      }
+    )
+    
+  }
+
+  handleChangeCedula(event){
+    this.setState({cedula:event.target.value})
+  }
+  
 
   render() {
     return (
       <div>
-        <Button onClick={this.handleClickOpen}>Open form dialog</Button>
         <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
+          open={this.props.open}
+          onClose={this.props.closeDialog}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+          <DialogTitle id="form-dialog-title">Reservar vuelo</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              To subscribe to this website, please enter your email address here. We will send
-              updates occasionally.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-            />
+
+            <FormGroup row>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.esMayorEdad}
+                    onChange={this.handleChange}
+                  />
+                }
+                label="Eres mayor de edad?"
+              />
+              </FormGroup >
+                <CedulaForm canShow={this.state.esMayorEdad} cedula={this.state.cedula} buttonText="Generar reserva" handleReservateButton={this.handleReservateButton} handleChangeCedula={this.handleChangeCedula}/>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleClose} color="primary">
-              Subscribe
-            </Button>
-          </DialogActions>
+          
         </Dialog>
       </div>
     );
