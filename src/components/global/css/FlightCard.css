@@ -1,0 +1,14 @@
+
+.FlightCardMedia{
+    height: 150px;
+    width: 100%;
+    margin: 0%;
+}
+.MaterialButton{
+    position: fixed;
+}
+#divStyle {
+    color: #5D4949; 
+    font-family: 'Source Sans Pro', sans-serif; 
+    font-size: 34px;
+}
