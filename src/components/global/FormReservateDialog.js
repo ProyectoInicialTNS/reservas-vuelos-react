@@ -7,7 +7,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import CedulaForm from './CedulaForm';
-import {reservateFlight} from '../../services/UserService'
+import UserService from '../../services/UserService'
 
 export default class FormReservateDialog extends React.Component {
 
@@ -34,7 +34,7 @@ export default class FormReservateDialog extends React.Component {
 
   handleReservateButton(){
     this.props.closeDialog();
-    reservateFlight(this.state.cedula,this.props.selectedFlight).then(
+    UserService.reservateFlight(this.state.cedula,this.props.selectedFlight).then(
       response => {
         response.data ? alert("Reservacion realizada con exito") : alert("No se puede realizar reservacion");
       }

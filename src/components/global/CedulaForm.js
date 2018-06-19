@@ -13,11 +13,6 @@ class CedulaForm extends Component {
         handleChangeCedula: PropTypes.func.isRequired,
         canShow: PropTypes.bool.isRequired
       };
-
-    handleChangeCedula(){
-        
-    }
-
     render() {
         return (this.props.canShow ? <div>
                 <TextField

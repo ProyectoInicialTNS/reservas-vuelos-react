@@ -28,7 +28,8 @@ class FlightCard extends Component {
         destiny: PropTypes.string.isRequired,
         baseCost: PropTypes.string.isRequired,
         idFlight: PropTypes.string.isRequired,
-        openDialog: PropTypes.func.isRequired
+        openDialog: PropTypes.func.isRequired,
+        showButton: PropTypes.bool.isRequired
       };
 
     handleReservarButtonClick(event,flight){
@@ -57,9 +58,9 @@ class FlightCard extends Component {
                 </Typography>
                     </CardContent>
                     <CardActions data-layout="row" data-layout-align="end">
-                        <Button  size="small" color="primary" onClick={(event) => this.handleReservarButtonClick(event,{flightImageUrl,airline,flightDay,finalCost,origin,destiny,baseCost,id: idFlight})}>
+                        {this.props.showButton && <Button  size="small" color="primary" onClick={(event) => this.handleReservarButtonClick(event,{flightImageUrl,airline,flightDay,finalCost,origin,destiny,baseCost,id: idFlight})}>
                             Reservar
-                        </Button>
+                        </Button>}
                         
                     </CardActions>
                 </Card>

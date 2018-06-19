@@ -6,4 +6,8 @@ async function reservateFlight(user,flight){
     return axios.post(URL+ '/'+user+'/join',flight)
 }
 
-export {reservateFlight}
+async function getAllUserFlights(user){
+    return axios.get(URL + '/'+user)
+}
+
+export default {reservateFlight, getAllUserFlights}

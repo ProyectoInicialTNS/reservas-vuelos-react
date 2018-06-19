@@ -69,7 +69,7 @@ class Home extends Component {
                         <Grid container className='GridHomeContainer' spacing={Number(spacing)}>
                             {this.state.currentFlights.map((item,key) => (
                                 <Grid key={key} item className='GridHomeFlight'>
-                                    <FlightCard key={key} flightImageUrl={item.flightImageUrl}
+                                    <FlightCard showButton={true} key={key} flightImageUrl={item.flightImageUrl}
                                     airline={item.airline} flightDay={item.flightDay} finalCost={item.finalCost} origin={item.origin} destiny={item.destiny}
                                     baseCost={item.baseCost} idFlight={item.id} openDialog={this.openDialog} />
                                 </Grid>
